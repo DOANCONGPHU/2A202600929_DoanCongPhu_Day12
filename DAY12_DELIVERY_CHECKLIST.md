@@ -1,8 +1,8 @@
 #  Delivery Checklist — Day 12 Lab Submission
 
-> **Student Name:** _________________________  
-> **Student ID:** _________________________  
-> **Date:** _________________________
+> **Student Name:** Đoàn Công Phú
+> **Student ID:** 2A202600929
+> **Date:** 12/06/2026
 
 ---
 
@@ -87,16 +87,16 @@ your-repo/
 └── README.md                # Setup instructions
 ```
 
-**Requirements:**
--  All code runs without errors
--  Multi-stage Dockerfile (image < 500 MB)
--  API key authentication
--  Rate limiting (10 req/min)
--  Cost guard ($10/month)
--  Health + readiness checks
--  Graceful shutdown
--  Stateless design (Redis)
--  No hardcoded secrets
+**Requirements — verified 12/06/2026:**
+- [x] All code runs without errors — local checker passed `20/20`; Railway deployment is `SUCCESS`
+- [x] Multi-stage Dockerfile (image < 500 MB) — local image is approximately `58.3 MB`
+- [x] API key authentication — public `/ask` without a key returns `401`
+- [ ] Rate limiting (10 req/min) — implemented and tested locally, but current default is `20 req/min`
+- [x] Cost guard ($10/month) — implemented with Redis and tested locally (`402` when exhausted)
+- [ ] Health + readiness checks — `/health` is public and returns `200`; Railway `/ready` returns `503` because `REDIS_URL` is not configured
+- [x] Graceful shutdown — implemented and observed in container shutdown logs
+- [x] Stateless design (Redis) — tested locally across 3 agent instances
+- [x] No hardcoded secrets — production readiness checker passed this check
 
 ---
 
@@ -108,7 +108,7 @@ Create a file `DEPLOYMENT.md` with your deployed service information:
 # Deployment Information
 
 ## Public URL
-https://your-agent.railway.app
+https://agentlab-production-0449.up.railway.app
 
 ## Platform
 Railway / Render / Cloud Run
@@ -143,16 +143,29 @@ curl -X POST https://your-agent.railway.app/ask \
 
 ##  Pre-Submission Checklist
 
-- [ ] Repository is public (or instructor has access)
+- [ ] Repository is public (or instructor has access) — remote exists, but repository visibility/instructor access has not been verified
 - [ ] `MISSION_ANSWERS.md` completed with all exercises
 - [ ] `DEPLOYMENT.md` has working public URL
-- [ ] All source code in `app/` directory
-- [ ] `README.md` has clear setup instructions
-- [ ] No `.env` file committed (only `.env.example`)
-- [ ] No hardcoded secrets in code
-- [ ] Public URL is accessible and working
+- [x] All source code in `app/` directory
+- [x] `README.md` has clear setup instructions
+- [x] No `.env` file committed (only `.env.example`) — local `.env` files are ignored
+- [x] No hardcoded secrets in code
+- [x] Public URL is accessible and working — `/health` returns `200`
 - [ ] Screenshots included in `screenshots/` folder
-- [ ] Repository has clear commit history
+- [x] Repository has clear commit history — meaningful `feat`, `fix`, and deployment commits exist
+
+### Verified Evidence
+
+- Railway service: `AgentLab` — `Online`
+- Latest Railway deployment: `SUCCESS`
+- Public URL: https://agentlab-production-0449.up.railway.app
+- Public `/health`: `200`
+- Public `/ask` without API key: `401`
+- Public `/ready`: `503` (`REDIS_URL` is not configured on Railway)
+- Local production readiness check: `20/20`
+- Local scaling test: requests were served by 3 distinct agent instances
+- Local rate-limit test: returned `429` after the configured limit
+- Local cost-guard test: returned `402`
 
 ---
 
@@ -188,7 +201,7 @@ done
 **Submit your GitHub repository URL:**
 
 ```
-https://github.com/your-username/day12-agent-deployment
+https://github.com/DOANCONGPHU/2A202600929_DoanCongPhu_Day12
 ```
 
 **Deadline:** 17/4/2026

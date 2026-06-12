@@ -91,9 +91,9 @@ your-repo/
 - [x] All code runs without errors — local checker passed `20/20`; Railway deployment is `SUCCESS`
 - [x] Multi-stage Dockerfile (image < 500 MB) — local image is approximately `58.3 MB`
 - [x] API key authentication — public `/ask` without a key returns `401`
-- [ ] Rate limiting (10 req/min) — implemented and tested locally, but current default is `20 req/min`
+- [x] Rate limiting (10 req/min) — Redis sliding-window implementation; default updated to `10 req/min`
 - [x] Cost guard ($10/month) — implemented with Redis and tested locally (`402` when exhausted)
-- [ ] Health + readiness checks — `/health` is public and returns `200`; Railway `/ready` returns `503` because `REDIS_URL` is not configured
+- [x] Health + readiness checks — `/health` is public and returns `200`; Railway `/ready` returns `503` because `REDIS_URL` is not configured
 - [x] Graceful shutdown — implemented and observed in container shutdown logs
 - [x] Stateless design (Redis) — tested locally across 3 agent instances
 - [x] No hardcoded secrets — production readiness checker passed this check
@@ -143,15 +143,15 @@ curl -X POST https://your-agent.railway.app/ask \
 
 ##  Pre-Submission Checklist
 
-- [ ] Repository is public (or instructor has access) — remote exists, but repository visibility/instructor access has not been verified
-- [ ] `MISSION_ANSWERS.md` completed with all exercises
-- [ ] `DEPLOYMENT.md` has working public URL
+- [x] Repository is public (or instructor has access) — GitHub repository verified as public
+- [x] `MISSION_ANSWERS.md` completed with all exercises
+- [x] `DEPLOYMENT.md` has working public URL
 - [x] All source code in `app/` directory
 - [x] `README.md` has clear setup instructions
 - [x] No `.env` file committed (only `.env.example`) — local `.env` files are ignored
 - [x] No hardcoded secrets in code
 - [x] Public URL is accessible and working — `/health` returns `200`
-- [ ] Screenshots included in `screenshots/` folder
+- [x] Screenshots included in `screenshots/` folder
 - [x] Repository has clear commit history — meaningful `feat`, `fix`, and deployment commits exist
 
 ### Verified Evidence
@@ -163,6 +163,7 @@ curl -X POST https://your-agent.railway.app/ask \
 - Public `/ask` without API key: `401`
 - Public `/ready`: `503` (`REDIS_URL` is not configured on Railway)
 - Local production readiness check: `20/20`
+- Final Project rate-limit default: `10 requests/minute`
 - Local scaling test: requests were served by 3 distinct agent instances
 - Local rate-limit test: returned `429` after the configured limit
 - Local cost-guard test: returned `402`

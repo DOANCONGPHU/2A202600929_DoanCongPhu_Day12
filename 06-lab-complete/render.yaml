@@ -22,4 +22,4 @@ services:
       - key: MONTHLY_BUDGET_USD
         value: "10.0"
       - key: RATE_LIMIT_PER_MINUTE
-        value: "20"
+        value: "10"
